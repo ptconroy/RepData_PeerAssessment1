@@ -136,12 +136,10 @@ days <- mutate(df, daytype = as.factor(ifelse(weekdays(date) %in% wkend,
 dayssum <- days %>%
             group_by(daytype, interval) %>%
             summarise(avg.steps = mean(steps, na.rm = TRUE))
-# the x-axis will get a little crowded so instead of showing every two hours on
-# that axis, we will show every three.
-breaks <- levels[seq(1, length(levels), 36)]
+
 ggplot(data = dayssum, aes(x = interval, y = avg.steps)) +
     geom_line(aes(group = 1)) +
-    facet_wrap(~daytype) +
+    facet_wrap(~daytype, nrow = 2) +
     ggtitle("Average Steps by 5 min. Interval: Weekdays vs. Weekends") +
     labs(x = "Time of day", y = "Average Steps") +
     scale_x_discrete(breaks = breaks)
